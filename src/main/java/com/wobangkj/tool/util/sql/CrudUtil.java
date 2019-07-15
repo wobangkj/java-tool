@@ -1,9 +1,9 @@
 package com.wobangkj.tool.util.sql;
 
-import com.wobangkj.tool.api.GetInfo;
-import com.wobangkj.tool.api.GetInfoN;
-import com.wobangkj.tool.api.MapData;
-import com.wobangkj.tool.lib.Lib;
+import com.wobangkj.tool.api.result.GetInfo;
+import com.wobangkj.tool.api.result.GetInfoN;
+import com.wobangkj.tool.api.result.MapData;
+import com.wobangkj.tool.lib.Result;
 import com.wobangkj.tool.manager.cache.CacheManager;
 import com.wobangkj.tool.manager.cache.impl.RedisManager;
 import com.wobangkj.tool.model.CacheModel;
@@ -101,9 +101,9 @@ public class CrudUtil {
 				// 查询数据
 				List content = repository.findAll(example, new Sort(Sort.Direction.DESC, "id"));
 				if(content.size() == 0) {
-					return Lib.MapNoResult;
+					return Result.MapNoResult;
 				}
-				res = Lib.GetMapData(Lib.CodeSuccess, Lib.MsgSuccess, content);
+				res = Result.GetMapData(Result.CodeSuccess, Result.MsgSuccess, content);
 				// 缓存开启判断
 				if (cacheManager != null) {
 
@@ -127,7 +127,7 @@ public class CrudUtil {
 			// 分页表
 			List content = page.getContent();
 			if (content.size() == 0) {
-				return Lib.GetMapData(Lib.CodeNoResult, Lib.MsgNoResult);
+				return Result.GetMapData(Result.CodeNoResult, Result.MsgNoResult);
 			}
 
 			// ignore参数判断v1
@@ -168,7 +168,7 @@ public class CrudUtil {
 			// 针对一些接口需要统计总数量问题, 不必重写接口
 			long sumPage = page.getTotalElements();//.getTotalPages();
 
-			res = Lib.GetMapDataPager(content, clientPage, (int) sumPage, everyPage);
+			res = Result.GetMapDataPager(content, clientPage, (int) sumPage, everyPage);
 			// 缓存开启判断
 			if (cacheManager != null) {
 
@@ -178,17 +178,17 @@ public class CrudUtil {
 			return res;
 
 		} catch (IllegalArgumentException ex) {
-			return Lib.GetMapData(Lib.CodeText, Lib.MsgArgsErr);
+			return Result.GetMapData(Result.CodeText, Result.MsgArgsErr);
 		} catch (EmptyResultDataAccessException ex) {
-			return Lib.GetMapData(Lib.CodeText, Lib.MsgNoData);
+			return Result.GetMapData(Result.CodeText, Result.MsgNoData);
 		} catch (Exception e) {
 			// 暂无数据
 			if (e.getCause().getClass() == EntityNotFoundException.class) {
-				return Lib.MapNoResult;
+				return Result.MapNoResult;
 			}
 
 			throw e;
-//			return Lib.GetMapData(Lib.CodeSql, e.getCause().getCause().getMessage());
+//			return Result.GetMapData(Result.CodeSql, e.getCause().getCause().getMessage());
 		}
 	}
 
@@ -219,16 +219,16 @@ public class CrudUtil {
 		try {
 			Object data = repository.findById(id).get();
 
-			res = Lib.GetMapData(Lib.CodeSuccess, Lib.MsgSuccess, data);
+			res = Result.GetMapData(Result.CodeSuccess, Result.MsgSuccess, data);
 
 			if(cacheManager != null) {
 				cacheManager.set(key, new CacheModel(Constants.CACHE_MINUTE, res));
 			}
 			return res;
 		} catch (NoSuchElementException ex) {
-			return Lib.GetMapData(Lib.CodeText, Lib.MsgNoData);
+			return Result.GetMapData(Result.CodeText, Result.MsgNoData);
 		} catch (Exception e) {
-			return Lib.GetMapData(Lib.CodeSql, e.getCause().getCause().getMessage());
+			return Result.GetMapData(Result.CodeSql, e.getCause().getCause().getMessage());
 		}
 	}
 
@@ -243,11 +243,11 @@ public class CrudUtil {
 
 		try {
 			repository.deleteById(id);
-			return Lib.MapDelete;
+			return Result.MapDelete;
 		} catch (EmptyResultDataAccessException ex) {
-			return Lib.GetMapData(Lib.CodeText, Lib.MsgNoData);
+			return Result.GetMapData(Result.CodeText, Result.MsgNoData);
 		} catch (Exception e) {
-			return Lib.GetMapData(Lib.CodeSql, e.getCause().getCause().getMessage());
+			return Result.GetMapData(Result.CodeSql, e.getCause().getCause().getMessage());
 		}
 	}
 
@@ -264,13 +264,13 @@ public class CrudUtil {
 			Object udateData = repository.save(data);
 			Object id        = Util.getFieldValue("id", udateData);
 			if (id == null) {
-				return Lib.GetMapData(Lib.CodeText, "id不能为空");
+				return Result.GetMapData(Result.CodeText, "id不能为空");
 			}
-			return Lib.MapUpdate;
+			return Result.MapUpdate;
 		} catch (NoSuchElementException e) {
-			return Lib.GetMapData(Lib.CodeSql, "条件值不存在");
+			return Result.GetMapData(Result.CodeSql, "条件值不存在");
 		} catch (Exception e) {
-			return Lib.GetMapData(Lib.CodeSql, e.getCause().getCause().getMessage());
+			return Result.GetMapData(Result.CodeSql, e.getCause().getCause().getMessage());
 		}
 	}
 
@@ -285,18 +285,18 @@ public class CrudUtil {
 		}
 
 		if(Util.isObjEmpty(data)) {
-			return Lib.GetMapData(Lib.CodeValidateErr, "数据不能全部为空", null);
+			return Result.GetMapData(Result.CodeValidateErr, "数据不能全部为空", null);
 		}
 
 		try {
 			Object createData = repository.save(data);
-			return Lib.GetMapData(Lib.CodeCreate, Lib.MsgCreate, new HashMap<String, Object>() {
+			return Result.GetMapData(Result.CodeCreate, Result.MsgCreate, new HashMap<String, Object>() {
 				{
 					put("id", Util.getFieldValue("id", createData));
 				}
 			});
 		} catch (Exception e) {
-			return Lib.GetMapData(Lib.CodeSql, e.getCause().getCause().getMessage(), null);
+			return Result.GetMapData(Result.CodeSql, e.getCause().getCause().getMessage(), null);
 		}
 	}
 }

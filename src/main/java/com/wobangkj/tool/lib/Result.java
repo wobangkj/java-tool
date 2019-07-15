@@ -1,9 +1,9 @@
 package com.wobangkj.tool.lib;
 
-import com.wobangkj.tool.api.GetInfo;
-import com.wobangkj.tool.api.GetInfoN;
-import com.wobangkj.tool.api.MapData;
-import com.wobangkj.tool.api.Pager;
+import com.wobangkj.tool.api.result.GetInfo;
+import com.wobangkj.tool.api.result.GetInfoN;
+import com.wobangkj.tool.api.result.MapData;
+import com.wobangkj.tool.api.result.Pager;
 
 /**
  * 沿袭golang状态码
@@ -13,7 +13,7 @@ import com.wobangkj.tool.api.Pager;
  */
 
 //final修饰符
-public final class Lib {
+public final class Result {
 
 	// 约定状态码
 	public static final int
@@ -94,22 +94,22 @@ public final class Lib {
 
 	// 信息通用,状态码及信息提示, 分页
 	public static final GetInfo GetMapDataPager(Object data, Integer clientPage, Integer sumPage, Integer everyPage) {
-		return new GetInfo<>(Lib.CodeSuccess, Lib.MsgSuccess, data, new Pager(clientPage, sumPage, everyPage));
+		return new GetInfo<>(Result.CodeSuccess, Result.MsgSuccess, data, new Pager(clientPage, sumPage, everyPage));
 	}
 
 	// 信息通用,状态码及信息提示, 分页
 	@Deprecated
 	public static final GetInfo GetMapDataPager(Object data, Pager pager) {
-		return new GetInfo<>(Lib.CodeSuccess, Lib.MsgSuccess, data, pager);
+		return new GetInfo<>(Result.CodeSuccess, Result.MsgSuccess, data, pager);
 	}
 
 	// 信息成功数据通用
 	public static final GetInfoN GetMapDataSuccess(Object data) {
-		return GetMapData(Lib.CodeSuccess, Lib.MsgSuccess, data);
+		return GetMapData(Result.CodeSuccess, Result.MsgSuccess, data);
 	}
 
 	// 信息失败数据通用
 	public static final GetInfoN GetMapDataError(Object data) {
-		return GetMapData(Lib.CodeError, Lib.MsgError, data);
+		return GetMapData(Result.CodeError, Result.MsgError, data);
 	}
 }
