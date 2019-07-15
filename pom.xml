@@ -5,7 +5,7 @@
 
     <groupId>com.wobangkj</groupId>
     <artifactId>java-tool</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>jar</packaging>
 
     <name>java-tool</name>
@@ -103,12 +103,37 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <!--    <distributionManagement>-->
+    <!--        <repository>-->
+    <!--            <id>github</id>-->
+    <!--            <name>GitHub wobangkj Apache Maven Packages</name>-->
+    <!--            <url>https://maven.pkg.github.com/wobangkj/java-tool</url>-->
+    <!--        </repository>-->
+    <!--    </distributionManagement>-->
+    <profiles>
+        <profile>
+            <id>rdc-private-repo</id>
+            <repositories>
+                <repository>
+                    <id>rdc-releases</id>
+                    <url>https://repo.rdc.aliyun.com/repository/79115-release-8qAEIB/</url>
+                </repository>
+                <repository>
+                    <id>rdc-snapshots</id>
+                    <url>https://repo.rdc.aliyun.com/repository/79115-snapshot-nphODc/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>GitHub wobangkj Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/wobangkj/java-tool</url>
+            <id>rdc-releases</id>
+            <url>https://repo.rdc.aliyun.com/repository/79115-release-8qAEIB/</url>
         </repository>
+        <snapshotRepository>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/79115-snapshot-nphODc/</url>
+        </snapshotRepository>
     </distributionManagement>
 
 </project>
