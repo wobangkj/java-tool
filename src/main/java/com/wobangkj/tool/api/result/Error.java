@@ -1,4 +1,4 @@
-package com.wobangkj.tool.api;
+package com.wobangkj.tool.api.result;
 
 public class Error {
 	/**

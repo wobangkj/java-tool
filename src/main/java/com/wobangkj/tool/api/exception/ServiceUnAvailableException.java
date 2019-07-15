@@ -1,7 +1,7 @@
-package com.wobangkj.tool.api;
+package com.wobangkj.tool.api.exception;
 
 /**
- * @Description:服务不可用异常
+ * @Description: 服务不可用异常
  */
 public class ServiceUnAvailableException extends RuntimeException {
 

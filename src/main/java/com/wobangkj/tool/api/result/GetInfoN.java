@@ -1,4 +1,4 @@
-package com.wobangkj.tool.api;
+package com.wobangkj.tool.api.result;
 
 /**
  * com.wobangkj.wbkj.model
